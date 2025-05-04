@@ -1,6 +1,6 @@
 let productos = [];
 
-fetch("./js/productos.json")
+fetch("http://localhost:8080/v0/s/article")
     .then(response => response.json())
     .then(data => {
         productos = data;
@@ -29,10 +29,10 @@ function cargarProductos(productosElegidos) {
         const div = document.createElement("div");
         div.classList.add("producto");
         div.innerHTML = `
-            <img class="producto-imagen" src="${producto.imagen}" alt="${producto.titulo}">
+            <img class="producto-imagen" src="${producto.image}" alt="${producto.name}">
             <div class="producto-detalles">
-                <h3 class="producto-titulo">${producto.titulo}</h3>
-                <p class="producto-precio">$${producto.precio}</p>
+                <h3 class="producto-titulo">${producto.name}</h3>
+                <p class="producto-precio">$${producto.price}</p>
                 <button class="producto-agregar" id="${producto.id}">Agregar</button>
             </div>
         `;
@@ -51,9 +51,9 @@ botonesCategorias.forEach(boton => {
         e.currentTarget.classList.add("active");
 
         if (e.currentTarget.id != "todos") {
-            const productoCategoria = productos.find(producto => producto.categoria.id === e.currentTarget.id);
-            tituloPrincipal.innerText = productoCategoria.categoria.nombre;
-            const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id);
+            const productoCategoria = productos.find(producto => producto.category.type === e.currentTarget.id);
+            tituloPrincipal.innerText = productoCategoria.category.name;
+            const productosBoton = productos.filter(producto => producto.category.type === e.currentTarget.id);
             cargarProductos(productosBoton);
         } else {
             tituloPrincipal.innerText = "Todos los productos";

@@ -26,10 +26,10 @@ function cargarProductosCarrito() {
             const div = document.createElement("div");
             div.classList.add("carrito-producto");
             div.innerHTML = `
-                <img class="carrito-producto-imagen" src="${producto.imagen}" alt="${producto.titulo}">
+                <img class="carrito-producto-imagen" src="${producto.image}" alt="${producto.name}">
                 <div class="carrito-producto-titulo">
                     <small>Título</small>
-                    <h3>${producto.titulo}</h3>
+                    <h3>${producto.name}</h3>
                 </div>
                 <div class="carrito-producto-cantidad">
                     <small>Cantidad</small>
@@ -37,11 +37,11 @@ function cargarProductosCarrito() {
                 </div>
                 <div class="carrito-producto-precio">
                     <small>Precio</small>
-                    <p>$${producto.precio}</p>
+                    <p>$${producto.price}</p>
                 </div>
                 <div class="carrito-producto-subtotal">
                     <small>Subtotal</small>
-                    <p>$${producto.precio * producto.cantidad}</p>
+                    <p>$${producto.price * producto.cantidad}</p>
                 </div>
                 <button class="carrito-producto-eliminar" id="${producto.id}"><i class="bi bi-trash-fill"></i></button>
             `;
@@ -124,7 +124,7 @@ function vaciarCarrito() {
 
 
 function actualizarTotal() {
-    const totalCalculado = productosEnCarrito.reduce((acc, producto) => acc + (producto.precio * producto.cantidad), 0);
+    const totalCalculado = productosEnCarrito.reduce((acc, producto) => acc + (producto.price * producto.cantidad), 0);
     total.innerText = `$${totalCalculado}`;
 }
 
