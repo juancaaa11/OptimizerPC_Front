@@ -1,3 +1,18 @@
+fetch("http://localhost:8080/v0/auth/check", {
+    headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token")
+    }
+})
+.then(response => {
+    if (!response.ok) {
+        window.location.href = "/OptimizerPC_Front/login/login.html";
+    }
+    return response.json();
+})
+.then(data => {
+    console.log("Usuario autenticado:", data.authenticated);
+});
+
 let productosEnCarrito = localStorage.getItem("productos-en-carrito");
 productosEnCarrito = JSON.parse(productosEnCarrito);
 
