@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
   
         try {
-          const res = await fetch('http://localhost:8080/v0/user', {
+          const res = await fetch('https://optimizerpcback-production.up.railway.app/v0/user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('pass').value;
   
         try {
-          const res = await fetch('http://localhost:8080/v0/auth', {
+          const res = await fetch('https://optimizerpcback-production.up.railway.app/v0/auth', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: email, password })

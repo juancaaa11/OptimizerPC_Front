@@ -1,4 +1,4 @@
-fetch("http://localhost:8080/v0/auth/check", {
+fetch("https://optimizerpcback-production.up.railway.app/v0/auth/check", {
     headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
     }
