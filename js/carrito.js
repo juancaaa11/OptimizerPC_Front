@@ -144,11 +144,10 @@ function vaciarCarrito() {
 
 
 botonComprar.addEventListener("click", comprarCarrito);
-
 function comprarCarrito() {
 
     const totalCalculado = productosEnCarrito.reduce((acc, producto) => acc + (producto.price * producto.cantidad), 0);
-    
+
     fetch(`https://optimizerpcback-production.up.railway.app/v0/sale?price=${totalCalculado}`, {
         method: "POST"
     })

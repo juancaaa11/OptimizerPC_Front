@@ -86,8 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
           });
   
           if (res.ok) {
-            const { token } = await res.json();
+            const { token, username, id } = await res.json();
             localStorage.setItem('token', token);
+            localStorage.setItem('username', username);
+            localStorage.setItem('userId', id);
             window.location.href = '/OptimizerPC_Front/index.html';
           } else {
             alert('Credenciales inválidas');
