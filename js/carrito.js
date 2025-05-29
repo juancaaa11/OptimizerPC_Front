@@ -154,4 +154,22 @@ function comprarCarrito() {
     contenedorCarritoAcciones.classList.add("disabled");
     contenedorCarritoComprado.classList.remove("disabled");
 
+    fetch(`https://optimizerpcback-production.up.railway.app/v0/sale?price=${totalCalculado}`, {
+        method: "POST",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error al registrar la venta");
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Venta registrada:", data);
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
 }
