@@ -139,10 +139,11 @@ function vaciarCarrito() {
 
  let totalCalculado = 0;
 
-function actualizarTotal() {
+ function actualizarTotal() {
     totalCalculado = productosEnCarrito.reduce((acc, producto) => acc + (producto.price * producto.cantidad), 0);
-    total.innerText = `$${totalCalculado}`;
+    contenedorTotal.innerText = `$${totalCalculado}`;
 }
+
 
 botonComprar.addEventListener("click", comprarCarrito);
 
@@ -159,7 +160,6 @@ function comprarCarrito() {
     .then(data => {
         console.log("Venta registrada:", data);
 
-        // Limpiar carrito y actualizar vista
         productosEnCarrito.length = 0;
         localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
 
@@ -172,3 +172,4 @@ function comprarCarrito() {
         console.error("Error:", error);
     });
 }
+
