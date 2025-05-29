@@ -138,8 +138,10 @@ function vaciarCarrito() {
 }
 
 
+let totalCalculado = 0;
+
 function actualizarTotal() {
-    const totalCalculado = productosEnCarrito.reduce((acc, producto) => acc + (producto.price * producto.cantidad), 0);
+    totalCalculado = productosEnCarrito.reduce((acc, producto) => acc + (producto.price * producto.cantidad), 0);
     total.innerText = `$${totalCalculado}`;
 }
 
