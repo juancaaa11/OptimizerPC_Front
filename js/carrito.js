@@ -77,6 +77,7 @@ function cargarProductosCarrito() {
 }
 
 cargarProductosCarrito();
+cargarProductosCarrito();
 
 function actualizarBotonesEliminar() {
     botonesEliminar = document.querySelectorAll(".carrito-producto-eliminar");
@@ -137,8 +138,7 @@ function vaciarCarrito() {
       })
 }
 
-
-let totalCalculado = 0;
+ let totalCalculado = 0;
 
 function actualizarTotal() {
     totalCalculado = productosEnCarrito.reduce((acc, producto) => acc + (producto.price * producto.cantidad), 0);
@@ -146,21 +146,10 @@ function actualizarTotal() {
 }
 
 botonComprar.addEventListener("click", comprarCarrito);
+
 function comprarCarrito() {
-
-    productosEnCarrito.length = 0;
-    localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
-    
-    contenedorCarritoVacio.classList.add("disabled");
-    contenedorCarritoProductos.classList.add("disabled");
-    contenedorCarritoAcciones.classList.add("disabled");
-    contenedorCarritoComprado.classList.remove("disabled");
-
     fetch(`https://optimizerpcback-production.up.railway.app/v0/sale?price=${totalCalculado}`, {
-        method: "POST",
-        headers: {
-            "Authorization": "Bearer " + localStorage.getItem("token")
-        }
+        method: "POST"
     })
     .then(response => {
         if (!response.ok) {
@@ -170,6 +159,15 @@ function comprarCarrito() {
     })
     .then(data => {
         console.log("Venta registrada:", data);
+
+        // Limpiar carrito y actualizar vista
+        productosEnCarrito.length = 0;
+        localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
+
+        contenedorCarritoVacio.classList.add("disabled");
+        contenedorCarritoProductos.classList.add("disabled");
+        contenedorCarritoAcciones.classList.add("disabled");
+        contenedorCarritoComprado.classList.remove("disabled");
     })
     .catch(error => {
         console.error("Error:", error);
