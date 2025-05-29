@@ -14,6 +14,8 @@ fetch("https://optimizerpcback-production.up.railway.app/v0/auth/check", {
 });
 
 let productosEnCarrito = localStorage.getItem("productos-en-carrito");
+let userIdActive = localStorage.getItem("userId");
+let usernameActive = localStorage.getItem("username");
 productosEnCarrito = JSON.parse(productosEnCarrito);
 
 const contenedorCarritoVacio = document.querySelector("#carrito-vacio");
@@ -148,9 +150,8 @@ function comprarCarrito() {
 
     const totalCalculado = productosEnCarrito.reduce((acc, producto) => acc + (producto.price * producto.cantidad), 0);
 
-    fetch(`https://optimizerpcback-production.up.railway.app/v0/sale?price=${totalCalculado}`, {
-        method: "POST"
-    })
+    fetch(`https://optimizerpcback-production.up.railway.app/v0/sale?price=${totalCalculado}&userId=${userIdActive}`, {
+        method: "POST"})
     .then(response => {
         if (!response.ok) {
             throw new Error("Error al registrar la venta");
