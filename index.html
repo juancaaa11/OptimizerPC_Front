@@ -13,19 +13,32 @@
 <body>
 
     <div class="wrapper">
+
+        <!-- Header móvil principal -->
         <header class="header-mobile">
             <h1 class="logo">Optimizer PC</h1>
+
             <button class="open-menu" id="open-menu">
                 <i class="bi bi-list"></i>
             </button>
+
+            <div id="welcome-msg" style="color:white; margin-left: 10px;">Bienvenido</div>
+
+            <button id="logout-btn" title="Cerrar sesión">
+                <i class="bi bi-box-arrow-right"></i>
+            </button>
         </header>
+
+        <!-- Aside menú lateral -->
         <aside>
             <button class="close-menu" id="close-menu">
                 <i class="bi bi-x"></i>
             </button>
+
             <header>
                 <h1 class="logo">Optimizer PC</h1>
             </header>
+
             <nav>
                 <ul class="menu">
                     <li>
@@ -47,20 +60,40 @@
                     </li>
                 </ul>
             </nav>
+
             <footer>
                 <p class="texto-footer">© 2025 Juanca Services</p>
             </footer>
         </aside>
+
+        <!-- Contenido principal -->
         <main>
             <h2 class="titulo-principal" id="titulo-principal">Todos los productos</h2>
             <div id="contenedor-productos" class="contenedor-productos">
                 <!-- Esto se va a rellenar con JS -->
             </div>
         </main>
+
     </div>
-    
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="./js/main.js"></script>
-    <script src="./js/menu.js"></script>
+    <!--<script src="./js/main.js"></script>
+    <script src="./js/menu.js"></script>-->
+    <script>
+        const username = localStorage.getItem('username') || 'Invitado';
+        const welcomeMsg = document.getElementById('welcome-msg');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        if (welcomeMsg) {
+            welcomeMsg.textContent = `Bienvenido, ${username}`;
+        }
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                localStorage.clear();
+                window.location.href = './login/login.html'; 
+            });
+        }
+    </script>
 </body>
 </html>

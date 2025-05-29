@@ -387,9 +387,31 @@ main {
 }
 
 
-
 @media screen and (max-width: 400px) {
     .contenedor-productos {
         grid-template-columns: 1fr;
     }
+}
+
+.user-info {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--clr-white);
+}
+
+#logout-btn {
+    background: transparent;
+    border: none;
+    color: var(--clr-white);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+#logout-btn:hover {
+    color: var(--clr-red);
 }
