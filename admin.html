@@ -45,10 +45,10 @@
                         <button id="todos" class="boton-menu boton-categoria active"><i class="bi bi-hand-index-thumb-fill"></i> Gestionar</button>
                     </li>
                     <li>
-                        <button id="logout-menu-btn" class="boton-menu boton-categoria">
+                        <button id="logout-menu-btn" class="boton-menu boton-categoria cerrar-sesion">
                             <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
                         </button>
-                    </li>                    
+                    </li>                   
                     </li>
                 </ul>
             </nav>
@@ -89,7 +89,7 @@
     <script src="./js/menu.js"></script>
 
     <script>
-        function cerrarSesion() {
+       function cerrarSesion() {
           localStorage.clear();
           Toastify({
             text: "Sesión cerrada",
@@ -98,17 +98,18 @@
             position: "right",
             style: { background: "#dc3545" }
           }).showToast();
-          
+      
           setTimeout(() => {
-            window.location.href = "./login.html"; 
+            window.location.href = "/OptimizerPC_Front/login/login.html"; 
           }, 2000);
         }
       
-        // Botón de header
-        document.getElementById("logout-btn").addEventListener("click", cerrarSesion);
+        // Asignar función de cerrar sesión a los botones
+        const logoutBtnHeader = document.getElementById("logout-btn");
+        const logoutBtnMenu = document.getElementById("logout-menu-btn");
       
-        // Botón del menú lateral
-        document.getElementById("logout-menu-btn").addEventListener("click", cerrarSesion);
+        if (logoutBtnHeader) logoutBtnHeader.addEventListener("click", cerrarSesion);
+        if (logoutBtnMenu) logoutBtnMenu.addEventListener("click", cerrarSesion);
       </script>
 </body>
 </html>

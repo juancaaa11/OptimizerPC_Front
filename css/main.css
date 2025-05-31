@@ -453,6 +453,7 @@ main {
   
   .cerrar-sesion:hover {
     background-color: #f28b8b; /* rojo clarito al hacer hover */
+    transform: scale(1.02); /* Efecto suave de zoom */
     color: white;
   }
   
