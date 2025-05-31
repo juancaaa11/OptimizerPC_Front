@@ -216,16 +216,20 @@
         div.dataset.id = prod.id; // Guarda id en el div para referencia
 
         div.innerHTML = `
-          <div style="display:flex; justify-content: space-between; align-items: center;">
-            <div>
-              <h3>${prod.name}</h3>
-              <p>Precio: $${prod.price.toFixed(2)}</p>
-            </div>
-            <button class="btn-eliminar" type="button" aria-label="Eliminar producto">
-              <i class="bi bi-trash"></i> Eliminar
-            </button>
-          </div>
-        `;
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+        <img src="${prod.image}" alt="${prod.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+    
+        <div style="flex-grow: 1;">
+            <h3 style="margin: 0;">${prod.name}</h3>
+            <p style="margin: 0;">Precio: $${prod.price.toFixed(2)}</p>
+        </div>
+
+        <button class="btn-eliminar" type="button" aria-label="Eliminar producto">
+            <i class="bi bi-trash"></i> Eliminar
+        </button>
+  </div>
+`;
+
 
         searchResults.appendChild(div);
       });
