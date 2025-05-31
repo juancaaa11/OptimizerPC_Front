@@ -100,20 +100,20 @@
             });
         }
 
-  function cerrarSesion() {
-    localStorage.clear();
-    Toastify({
-      text: "Sesión cerrada",
-      duration: 2000,
-      gravity: "top",
-      position: "right",
-      style: { background: "#dc3545" }
-    }).showToast();
-    
-    setTimeout(() => {
-      window.location.href = "../login/login.html"; // Cambia esto si tu login está en otra ruta
-    }, 2000);
-  }
+        function cerrarSesion() {
+  localStorage.clear();
+  Toastify({
+    text: "Sesión cerrada",
+    duration: 2000,
+    gravity: "top",
+    position: "right",
+    style: { background: "#dc3545" }
+  }).showToast();
+
+  setTimeout(() => {
+    window.location.href = "/OptimizerPC_Front/login/login.html"; 
+  }, 2000); // Espera 2 segundos antes de redirigir
+}
 
   // Botón de header
   document.getElementById("logout-btn").addEventListener("click", cerrarSesion);
