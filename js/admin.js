@@ -266,6 +266,23 @@ document.addEventListener("DOMContentLoaded", function () {
               position: "right",
               style: { background: "#4BB543" }
             }).showToast();
+            Swal.fire({
+            title: '🎉 ¡Producto agregado!',
+            html: `
+            <p><strong>${name}</strong> se ha agregado correctamente a la tienda.</p>
+            <p>Precio: <strong>${price.toFixed(2)}€</strong></p>
+              ` ,
+          imageUrl: base64ImageWithPrefix,
+            imageAlt: `Imagen de ${name}`,
+              imageWidth: 200,
+              background: '#f0f9ff',
+            icon: 'success',
+            confirmButtonText: 'Genial 😎',
+          customClass: {
+         popup: 'swal2-show-image-popup'
+                }
+              });
+
             form.reset();
           } else {
             const error = await response.text();

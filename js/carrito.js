@@ -159,16 +159,34 @@ function comprarCarrito() {
         return response.json();
     })
     .then(data => {
-        console.log("Venta registrada:", data);
+    console.log("Venta registrada:", data);
 
-        productosEnCarrito.length = 0;
-        localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
+    productosEnCarrito.length = 0;
+    localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
 
-        contenedorCarritoVacio.classList.add("disabled");
-        contenedorCarritoProductos.classList.add("disabled");
-        contenedorCarritoAcciones.classList.add("disabled");
-        contenedorCarritoComprado.classList.remove("disabled");
-    })
+    contenedorCarritoVacio.classList.add("disabled");
+    contenedorCarritoProductos.classList.add("disabled");
+    contenedorCarritoAcciones.classList.add("disabled");
+    contenedorCarritoComprado.classList.remove("disabled");
+
+    Swal.fire({
+        title: '🎉 ¡Compra completada!',
+        html: `
+            <p><strong>${usernameActive}</strong>, gracias por confiar en <strong>Optimizer PC</strong>.</p>
+            <p>Hemos enviado un correo con los detalles de tu pedido a tu dirección registrada.</p>
+            <p>💌 <em>¡Revisa tu bandeja de entrada (y spam, por si acaso)!</em></p>
+        `,
+        icon: 'success',
+        confirmButtonText: 'Volver a la tienda 🛒',
+        customClass: {
+            popup: 'swal2-border-radius',
+            title: 'swal2-title-custom',
+            htmlContainer: 'swal2-html-custom',
+        }
+    }).then(() => {
+        window.location.href = "./index.html";
+    });
+})
     .catch(error => {
         console.error("Error:", error);
     });

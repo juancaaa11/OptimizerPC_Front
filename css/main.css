@@ -163,9 +163,15 @@ main {
 }
 
 .producto-imagen {
-    max-width: 100%;
-    border-radius: 1rem;
+  width: 100%;
+  max-width: 200px;      /* Puedes ajustar este valor según tu diseño */
+  aspect-ratio: 1 / 1;   /* Mantiene imagen cuadrada */
+  object-fit: cover;     /* Rellena el contenedor recortando si hace falta */
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;        /* Centrar la imagen */
 }
+
 
 .producto-detalles {
     background-color: var(--clr-main);

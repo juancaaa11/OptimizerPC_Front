@@ -49,6 +49,102 @@
       .btn-eliminar:hover {
         background-color: #b02a37;
       }
+
+      .image-upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.image-upload-wrapper input[type="file"] {
+  display: none;
+}
+
+.image-preview {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1 / 1;
+  border: 2px dashed #cbd5e1;
+  border-radius: 0.75rem;
+  background-color: #f9fafb;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  color: #94a3b8;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.image-preview:hover {
+  background-color: #e0f2fe;
+  border-color: #60a5fa;
+  color: #38bdf8;
+}
+
+.formulario-producto {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 400px;
+  margin-top: 2rem;
+}
+
+.formulario-producto input[type="text"],
+.formulario-producto input[type="number"] {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.formulario-producto input:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+.btn-submit {
+  padding: 0.75rem;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #059669;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  transition: color 0.2s ease;
+}
+
+.btn-remove:hover {
+  color: #dc2626;
+}
+
+.file-name {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+
     </style>
 </head>
 <body>
@@ -92,20 +188,30 @@
       </section>
 
       <section class="formulario-agregar">
-        <h2 class="section-title">🛒 Agregar nuevo producto</h2>
-        <form id="product-form" enctype="multipart/form-data">
-          <input type="text" name="name" placeholder="Nombre del producto" required />
-          <input type="number" name="price" placeholder="Precio" step="0.01" required />
-          <label for="product-image" class="custom-file-upload">
-            <i class="fas fa-cloud-upload-alt"></i> Subir imagen
-          </label>
-          <input type="file" id="product-image" name="image" accept="image/*" required />
-          <div id="category-checkboxes"></div>
-          <button type="submit">Agregar producto</button>
-          <p id="file-name" style="margin-top: 0.5rem; color: #555;"></p>
-          <button type="button" id="remove-image" style="margin-left: 1rem; display: none;">❌ Eliminar imagen</button>
-        </form>
-      </section>
+  <h2 class="section-title">🛒 Agregar nuevo producto</h2>
+  <form id="product-form" enctype="multipart/form-data" class="formulario-producto">
+    
+    <!-- Vista previa de imagen -->
+    <div class="image-upload-wrapper">
+      <input type="file" name="image" id="product-image" accept="image/*" required />
+      <div class="image-preview" id="image-preview">
+        <span>Haz clic para subir imagen</span>
+      </div>
+      <button type="button" id="remove-image" class="btn-remove" style="display: none;">❌ Eliminar imagen</button>
+      <p id="file-name" class="file-name"></p>
+    </div>
+
+    <!-- Datos del producto -->
+    <input type="text" name="name" placeholder="🖊️ Nombre del producto" required />
+    <input type="number" name="price" placeholder="💶 Precio (€)" step="0.01" required />
+
+    <!-- Categorías -->
+    <div id="category-checkboxes"></div>
+
+    <button type="submit" class="btn-submit">✅ Agregar producto</button>
+  </form>
+</section>
+
 
       <section class="formulario-agregar">
         <h2 class="section-title">❌ Borrar productos</h2>
@@ -321,6 +427,50 @@
     }
   });
 }
+
+document.getElementById('image-preview').addEventListener('click', () => {
+  document.getElementById('product-image').click();
+});
+
+document.getElementById('product-image').addEventListener('change', function () {
+  const file = this.files[0];
+  const preview = document.getElementById('image-preview');
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      preview.style.backgroundImage = `url(${e.target.result})`;
+      preview.innerHTML = ""; // quitamos el texto "Previsualización"
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    // Si se cancela o borra
+    preview.style.backgroundImage = "none";
+    preview.innerHTML = "<span>Previsualización</span>";
+  }
+});
+
+removeBtn.addEventListener("click", () => {
+  fileInput.value = "";
+  fileNameDisplay.textContent = "";
+  removeBtn.style.display = "none";
+
+  // Limpia la previsualización
+  const preview = document.getElementById("image-preview");
+  preview.style.backgroundImage = "none";
+  preview.innerHTML = "<span>Haz clic para subir imagen</span>";
+
+  Toastify({
+    text: "Imagen eliminada",
+    duration: 3000,
+    gravity: "top",
+    position: "right",
+    style: { background: "#dc3545", color: "#fff" },
+    stopOnFocus: true,
+  }).showToast();
+});
 
   </script>
 </body>
