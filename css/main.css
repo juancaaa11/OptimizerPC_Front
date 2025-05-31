@@ -620,3 +620,33 @@ input[type="file"] {
     font-size: 14px;
     font-family: AbeeZee;
 }
+
+#search-results {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.producto-item {
+    background: #f4f4f4;
+    padding: 1rem;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-borrar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-borrar:hover {
+    background-color: #c82333;
+}
+
