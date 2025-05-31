@@ -58,6 +58,11 @@
                             <i class="bi bi-cart-fill"></i> Carrito <span id="numerito" class="numerito">0</span>
                         </a>
                     </li>
+                    <li>
+                        <button id="logout-menu-btn" class="boton-menu boton-categoria">
+                            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                        </button>
+                    </li>            
                 </ul>
             </nav>
 
@@ -94,6 +99,27 @@
                 window.location.href = './login/login.html'; 
             });
         }
+
+  function cerrarSesion() {
+    localStorage.clear();
+    Toastify({
+      text: "Sesión cerrada",
+      duration: 2000,
+      gravity: "top",
+      position: "right",
+      style: { background: "#dc3545" }
+    }).showToast();
+    
+    setTimeout(() => {
+      window.location.href = "login.html"; // Cambia esto si tu login está en otra ruta
+    }, 2000);
+  }
+
+  // Botón de header
+  document.getElementById("logout-btn").addEventListener("click", cerrarSesion);
+
+  // Botón del menú lateral
+  document.getElementById("logout-menu-btn").addEventListener("click", cerrarSesion);
     </script>
 </body>
 </html>

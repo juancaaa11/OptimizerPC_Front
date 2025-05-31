@@ -415,3 +415,32 @@ main {
 #logout-btn:hover {
     color: var(--clr-red);
 }
+
+.chart-container {
+    background: linear-gradient(135deg, #1e3a8a, #1e40af); /* Azul oscuro degradado */
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    border: 1px solid #1e3a8a;
+  }
+  
+  .chart-title {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #ffffff; /* Azul claro */
+  }
+  
+  .chart-wrapper {
+    width: auto;
+    height: 600px;
+    margin: 0 auto;
+  }
+  
+  #salesChart {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
