@@ -443,4 +443,17 @@ main {
     width: 100% !important;
     height: 100% !important;
   }
+
+  .cerrar-sesion {
+    color: white;
+    border: none;
+    border-radius: 0.4rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cerrar-sesion:hover {
+    background-color: #f28b8b; /* rojo clarito al hacer hover */
+    color: white;
+  }
+  
   
