@@ -71,6 +71,20 @@ aside {
     width: 100%;
 }
 
+.boton-menuSession {
+    background-color: transparent;
+    border: 0;
+    color: var(--clr-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 600;
+    padding: 1rem;
+    font-size: .85rem;
+    width: 100%;
+}
+
 .boton-menu.active {
     background-color: var(--clr-white);
     color: var(--clr-main);
