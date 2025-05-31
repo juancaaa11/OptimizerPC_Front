@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optimizer PC</title>
+    <title>Optimizer PC - Administrador</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="icon" type="image/png" href="./img/logos/MinimalistModernSimpleLogo.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700"rel="stylesheet"/>
 </head>
 <body>
 
@@ -58,26 +60,26 @@
             </footer>
         </aside>
 
-        <!-- Contenido principal -->
         <main>
-            <h2 class="titulo-principal" id="titulo-principal">Gestionar productos y ventas de la tienda</h2>
+            <h2 class="titulo-principal" id="titulo-principal">GESTION DE PRODUCTOS</h2>
             <section class="chart-container">
-                <div class="chart-wrapper">
-                  <canvas id="salesChart"></canvas>
-                </div>
+                <div id="salesChart"></div>
             </section>    
+            
             <section class="formulario-agregar">
-                <h2 class="chart-title">Agregar nuevo producto</h2>
+                <h2 class="section-title">🛒 Agregar nuevo producto</h2>
                 <form id="product-form" enctype="multipart/form-data">
                     <input type="text" name="name" placeholder="Nombre del producto" required>
                     <input type="number" name="price" placeholder="Precio" step="0.01" required>
-                    <input type="file" name="image" accept="image/*" required>
-            
+                    <label for="product-image" class="custom-file-upload">
+                    <i class="fas fa-cloud-upload-alt"></i> Subir imagen</label>
+                    <input type="file" id="product-image" name="image" accept="image/*" required>
                     <div id="category-checkboxes">
-                    
                     </div>
-            
                     <button type="submit">Agregar producto</button>
+                    <p id="file-name" style="margin-top: 0.5rem; color: #555;"></p>
+                    <button type="button" id="remove-image" style="margin-left: 1rem; display: none;">❌ Eliminar imagen</button>
+
                 </form>
             </section>                      
         </main>
@@ -85,31 +87,81 @@
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
     <script src="./js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="./js/menu.js"></script>
 
     <script>
-       function cerrarSesion() {
-          localStorage.clear();
-          Toastify({
-            text: "Sesión cerrada",
-            duration: 2000,
-            gravity: "top",
-            position: "right",
-            style: { background: "#dc3545" }
-          }).showToast();
-      
-          setTimeout(() => {
-            window.location.href = "/OptimizerPC_Front/login/login.html"; 
-          }, 2000);
-        }
-      
-        // Asignar función de cerrar sesión a los botones
-        const logoutBtnHeader = document.getElementById("logout-btn");
-        const logoutBtnMenu = document.getElementById("logout-menu-btn");
-      
-        if (logoutBtnHeader) logoutBtnHeader.addEventListener("click", cerrarSesion);
-        if (logoutBtnMenu) logoutBtnMenu.addEventListener("click", cerrarSesion);
-      </script>
+  // ======= Cerrar sesión =======
+  function cerrarSesion() {
+    localStorage.clear();
+    Toastify({
+      text: "Sesión cerrada",
+      duration: 2000,
+      gravity: "top",
+      position: "right",
+      style: { background: "#dc3545" }
+    }).showToast();
+
+    setTimeout(() => {
+      window.location.href = "/OptimizerPC_Front/login/login.html";
+    }, 2000);
+  }
+
+  const logoutBtnHeader = document.getElementById("logout-btn");
+  const logoutBtnMenu = document.getElementById("logout-menu-btn");
+
+  if (logoutBtnHeader) logoutBtnHeader.addEventListener("click", cerrarSesion);
+  if (logoutBtnMenu) logoutBtnMenu.addEventListener("click", cerrarSesion);
+
+  // ======= Gestión de imagen cargada =======
+  const fileInput = document.getElementById("product-image");
+  const fileNameDisplay = document.getElementById("file-name");
+  const removeBtn = document.getElementById("remove-image");
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+
+    if (file) {
+      fileNameDisplay.textContent = `📁 Imagen cargada: ${file.name}`;
+      removeBtn.style.display = "inline-block";
+
+      Toastify({
+        text: "Imagen cargada correctamente",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        style: {
+          background: "#28a745",
+          color: "#fff",
+        },
+        stopOnFocus: true,
+      }).showToast();
+    } else {
+      fileNameDisplay.textContent = "";
+      removeBtn.style.display = "none";
+    }
+  });
+
+  removeBtn.addEventListener("click", () => {
+    fileInput.value = "";
+    fileNameDisplay.textContent = "";
+    removeBtn.style.display = "none";
+
+    Toastify({
+      text: "Imagen eliminada",
+      duration: 3000,
+      gravity: "top",
+      position: "right",
+      style: {
+        background: "#dc3545",
+        color: "#fff",
+      },
+      stopOnFocus: true,
+    }).showToast();
+  });
+</script>
+
 </body>
 </html>

@@ -65,8 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   
-    // 4) Envío del formulario de login
-    // (Tu login no tiene id en el form, le ponemos uno para engancharlo)
     const formLogin = document.querySelector('form.cod-form');
     if (formLogin && !formLogin.id) {
       formLogin.setAttribute('id', 'form-login');
@@ -90,7 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('token', token);
             localStorage.setItem('username', username);
             localStorage.setItem('userId', id);
-            window.location.href = '/OptimizerPC_Front/index.html';
+            if (username === 'admin') {
+              window.location.href = '/OptimizerPC_Front/admin.html';
+            } else {
+              window.location.href = '/OptimizerPC_Front/index.html';
+            }
           } else {
             alert('Credenciales inválidas');
           }

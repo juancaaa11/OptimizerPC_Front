@@ -27,112 +27,121 @@ fetch("https://optimizerpcback-production.up.railway.app/v0/s/categories")
         });
     })
 
-fetch('https://optimizerpcback-production.up.railway.app/v0/s/sale')
-  .then(response => response.json())
-  .then(data => {
-    const labels = data.map(sale =>
-      new Date(sale.date).toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-      })
-    );
-    const prices = data.map(sale => sale.price);
+document.addEventListener("DOMContentLoaded", function () {
+  fetch('https://optimizerpcback-production.up.railway.app/v0/s/sale')
+    .then(response => response.json())
+    .then(data => {
+      const seriesData = data.map(sale => ({
+        // Convertimos "yyyy-MM-dd HH:mm:ss" a ISO 8601 reemplazando espacio por 'T'
+        x: new Date(sale.date.replace(' ', 'T')).getTime(),
+        y: sale.price
+      }));
 
-    const ctx = document.getElementById('salesChart').getContext('2d');
-
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [{
-          label: 'Ventas (€)',
-          data: prices,
-          backgroundColor: 'rgba(59, 130, 246, 0.2)',
-          borderColor: '#3b82f6',
-          borderWidth: 3,
-          pointBackgroundColor: 'white',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: 'white',
-          pointHoverBorderColor: '#3b82f6',
-          pointRadius: 5,
-          pointHoverRadius: 8,
-          tension: 0.4,
-          fill: true
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 20,
-            bottom: 20,
-            left: 10,
-            right: 10
-          }
-        },
-        plugins: {
-          legend: {
-            position: 'top',
-            labels: {
-              color: '#f9fafb',
-              font: {
-                size: 14,
-                family: 'Segoe UI'
-              },
-              padding: 20
+      const options = {
+        chart: {
+          type: 'area',
+          height: 400,
+          zoom: { enabled: true },
+          toolbar: {
+            show: true,
+            tools: {
+              download: true,
+              zoom: true,
+              zoomin: true,
+              zoomout: true,
+              pan: true,
+              reset: true
             }
           },
-          tooltip: {
-            backgroundColor: '#1f2937',
-            titleColor: '#facc15',
-            bodyColor: '#f9fafb',
-            borderColor: '#facc15',
-            borderWidth: 1,
-            cornerRadius: 4,
-            titleFont: { weight: 'bold' }
+          animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 800,
+            animateGradually: { enabled: true, delay: 150 },
+            dynamicAnimation: { enabled: true, speed: 350 }
           }
         },
-        scales: {
+        series: [{
+          name: 'Ventas (€)',
+          data: seriesData
+        }],
+        xaxis: {
+          type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+            format: 'dd MMM HH:mm',
+            style: { fontSize: '12px' }
+          },
+          title: {
+            text: 'Fecha y Hora',
+            style: { fontWeight: 'bold' }
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Precio (€)',
+            style: { fontWeight: 'bold' }
+          },
+          labels: {
+            formatter: val => `€${val.toFixed(2)}`
+          },
+          min: 0,
+          forceNiceScale: true
+        },
+        tooltip: {
+          enabled: true,
           x: {
-            grid: {
-              color: 'white'
-            },
-            ticks: {
-              color: 'white',
-              font: {
-                size: 12
-              }
-            },
-        
+            format: 'dd MMM yyyy HH:mm:ss',
+            formatter: val => {
+              const dt = new Date(val);
+              return dt.toLocaleString('es-ES', { 
+                year: 'numeric', month: 'short', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false 
+              });
+            }
           },
           y: {
-            beginAtZero: true,
-            grid: {
-              color: '#374151'
-            },
-            ticks: {
-              color: '#f9fafb',
-              font: {
-                size: 12
-              }
-            },
-            title: {
-              display: true,
-              text: 'Precio (€)',
-              color: 'white',
-              font: {
-                size: 14,
-                weight: 'bold'
-              }
-            }
+            formatter: val => `€${val.toFixed(2)}`
+          },
+          shared: true,
+          intersect: false,
+          style: {
+            fontSize: '14px'
           }
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            inverseColors: false,
+            opacityFrom: 0.7,
+            opacityTo: 0.1,
+            stops: [0, 90, 100]
+          }
+        },
+        stroke: {
+          curve: 'smooth',
+          width: 3
+        },
+        markers: {
+          size: 5,
+          hover: {
+            size: 8
+          }
+        },
+        grid: {
+          borderColor: '#e7e7e7',
+          row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5 }
         }
-      }
-    });
-  })
-  .catch(error => console.error('Error al obtener los datos:', error));
+      };
+
+      const chart = new ApexCharts(document.querySelector("#salesChart"), options);
+      chart.render();
+    })
+    .catch(error => console.error('Error al obtener los datos:', error));
+});
+
 
   document.getElementById('product-form').addEventListener('submit', function (e) {
     e.preventDefault();
