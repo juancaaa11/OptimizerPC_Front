@@ -196,80 +196,91 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-  document.getElementById('product-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-  
-    const form = e.target;
-  
-    // Obtener valores
-    const name = form.elements['name'].value.trim();
-    const priceStr = form.elements['price'].value.trim();
-    const imageFile = form.elements['image'].files[0];
-    const categoryId = form.elements['categoryId'].value;
-  
-    // Validaciones
-    if (!categoryId) {
-      alert("Selecciona una categoría");
-      return;
-    }
-    if (!name) {
-      alert("El nombre es obligatorio");
-      return;
-    }
-    const price = parseFloat(priceStr);
-    if (isNaN(price) || price <= 0) {
-      alert("El precio debe ser un número válido mayor que 0");
-      return;
-    }
-    if (!imageFile) {
-      alert("Selecciona una imagen");
-      return;
-    }
-  
-    const reader = new FileReader();
-  
-    reader.onload = async () => {
-      // Aquí pasamos el base64 completo, con prefijo 'data:image/...'
-      const base64ImageWithPrefix = reader.result;
-  
-      const payload = {
-        name: name,
-        image: base64ImageWithPrefix,
-        price: price
-      };
-  
-      try {
-        const response = await fetch(`https://optimizerpcback-production.up.railway.app/v0/article?categoryId=${categoryId}`, {
-          method: 'POST',
-          headers: {
-            "Authorization": "Bearer " + localStorage.getItem("token"),
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-  
-        if (response.ok) {
-          Toastify({
-            text: "Producto agregado correctamente",
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            style: { background: "#4BB543" }
-          }).showToast();
-          form.reset();
-        } else {
-          const error = await response.text();
-          alert("Error al agregar producto: " + error);
+ document.getElementById('product-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+
+  // Obtener valores
+  const name = form.elements['name'].value.trim();
+  const priceStr = form.elements['price'].value.trim();
+  const imageFile = form.elements['image'].files[0];
+  const categoryId = form.elements['categoryId'].value;
+
+  // Validaciones básicas
+  if (!categoryId) {
+    Swal.fire("Error", "Selecciona una categoría", "warning");
+    return;
+  }
+  if (!name) {
+    Swal.fire("Error", "El nombre es obligatorio", "warning");
+    return;
+  }
+  const price = parseFloat(priceStr);
+  if (isNaN(price) || price <= 0) {
+    Swal.fire("Error", "El precio debe ser un número válido mayor que 0", "warning");
+    return;
+  }
+  if (!imageFile) {
+    Swal.fire("Error", "Selecciona una imagen", "warning");
+    return;
+  }
+
+  // Confirmación con SweetAlert
+  Swal.fire({
+    title: '¿Agregar producto?',
+    icon: 'question',
+    html: `Vas a agregar <b>${name}</b> por <b>${price.toFixed(2)}€</b>`,
+    showCancelButton: true,
+    focusConfirm: false,
+    confirmButtonText: 'Sí',
+    cancelButtonText: 'No'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const reader = new FileReader();
+
+      reader.onload = async () => {
+        const base64ImageWithPrefix = reader.result;
+
+        const payload = {
+          name: name,
+          image: base64ImageWithPrefix,
+          price: price
+        };
+
+        try {
+          const response = await fetch(`https://optimizerpcback-production.up.railway.app/v0/article?categoryId=${categoryId}`, {
+            method: 'POST',
+            headers: {
+              "Authorization": "Bearer " + localStorage.getItem("token"),
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          if (response.ok) {
+            Toastify({
+              text: `✅ ${name} agregado correctamente`,
+              duration: 3000,
+              gravity: "top",
+              position: "right",
+              style: { background: "#4BB543" }
+            }).showToast();
+            form.reset();
+          } else {
+            const error = await response.text();
+            Swal.fire("Error al agregar", error, "error");
+          }
+        } catch (error) {
+          Swal.fire("Error de red", "No se pudo conectar con el servidor", "error");
+          console.error(error);
         }
-      } catch (error) {
-        alert("Error al conectar con el servidor");
-        console.error(error);
-      }
-    };
-  
-    reader.readAsDataURL(imageFile);
+      };
+
+      reader.readAsDataURL(imageFile);
+    }
   });
-  
-  
+});
+
 
 
