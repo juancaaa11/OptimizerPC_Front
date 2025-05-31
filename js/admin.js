@@ -6,12 +6,29 @@ fetch("https://optimizerpcback-production.up.railway.app/v0/auth/check", {
 .then(response => {
     if (!response.ok) {
         window.location.href = "/OptimizerPC_Front/login/login.html";
+        throw new Error("No autorizado");
     }
     return response.json();
 })
 .then(data => {
-    console.log("Usuario autenticado:", data.authenticated);
+    if (!data.authenticated) {
+        window.location.href = "/OptimizerPC_Front/login/login.html";
+        return;
+    }
+
+    const username = localStorage.getItem("username");
+    if (!username || username.toLowerCase() !== "admin") {
+        window.location.href = "/OptimizerPC_Front/login/login.html";
+        return;
+    }
+
+    console.log("Usuario autenticado y autorizado como admin:", data);
+    // Aquí continúa tu lógica para usuarios admin
+})
+.catch(error => {
+    console.error("Error en autenticación:", error);
 });
+
 
 fetch("https://optimizerpcback-production.up.railway.app/v0/s/categories")
     .then(response => response.json())
