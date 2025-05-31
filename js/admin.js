@@ -76,7 +76,15 @@ document.addEventListener("DOMContentLoaded", function () {
             speed: 800,
             animateGradually: { enabled: true, delay: 150 },
             dynamicAnimation: { enabled: true, speed: 350 }
-          }
+          },
+          foreColor: '#ffffff', // color texto blanco
+          background: '#1e40af' // azul oscuro de fondo
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
         },
         series: [{
           name: 'Ventas (€)',
@@ -87,26 +95,36 @@ document.addEventListener("DOMContentLoaded", function () {
           labels: {
             datetimeUTC: false,
             format: 'dd MMM HH:mm',
-            style: { fontSize: '12px' }
+            style: { colors: '#e0e7ff', fontSize: '12px' } // azul clarito claro
           },
           title: {
             text: 'Fecha y Hora',
-            style: { fontWeight: 'bold' }
+            style: { color: '#e0e7ff', fontWeight: 'bold' }
+          },
+          axisBorder: {
+            show: true,
+            color: '#93c5fd'
+          },
+          axisTicks: {
+            show: true,
+            color: '#93c5fd'
           }
         },
         yaxis: {
           title: {
             text: 'Precio (€)',
-            style: { fontWeight: 'bold' }
+            style: { color: '#e0e7ff', fontWeight: 'bold' }
           },
           labels: {
-            formatter: val => `€${val.toFixed(2)}`
+            formatter: val => `€${val.toFixed(2)}`,
+            style: { colors: '#e0e7ff' }
           },
           min: 0,
           forceNiceScale: true
         },
         tooltip: {
           enabled: true,
+          theme: 'dark',
           x: {
             format: 'dd MMM yyyy HH:mm:ss',
             formatter: val => {
@@ -124,7 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
           shared: true,
           intersect: false,
           style: {
-            fontSize: '14px'
+            fontSize: '14px',
+            color: '#ffffff'
           }
         },
         fill: {
@@ -134,30 +153,47 @@ document.addEventListener("DOMContentLoaded", function () {
             inverseColors: false,
             opacityFrom: 0.7,
             opacityTo: 0.1,
-            stops: [0, 90, 100]
+            stops: [0, 90, 100],
+            colorStops: [
+              { offset: 0, color: '#60a5fa', opacity: 0.7 }, // azul claro
+              { offset: 100, color: '#1e3a8a', opacity: 0.1 } // azul oscuro
+            ]
           }
         },
         stroke: {
           curve: 'smooth',
-          width: 3
+          width: 3,
+          colors: ['#93c5fd'] // línea azul clara
         },
         markers: {
           size: 5,
+          colors: ['#bfdbfe'], // marcador azul claro
+          strokeColors: '#1e40af',
+          strokeWidth: 2,
           hover: {
-            size: 8
+            size: 7
           }
         },
         grid: {
-          borderColor: '#e7e7e7',
-          row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5 }
-        }
-      };
+          borderColor: '#3b82f6',
+          row: { colors: ['#1e40af', '#2563eb'], opacity: 0.1 }
+        },
+        theme: {
+          monochrome: {
+            enabled: true,
+            color: '#93c5fd',
+            shadeTo: 'dark',
+            shadeIntensity: 0.65
+          }
+        }};
 
       const chart = new ApexCharts(document.querySelector("#salesChart"), options);
       chart.render();
     })
     .catch(error => console.error('Error al obtener los datos:', error));
 });
+
+
 
 
   document.getElementById('product-form').addEventListener('submit', function (e) {
