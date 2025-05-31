@@ -603,3 +603,20 @@ input[type="file"] {
 #remove-image:hover {
   background-color: #a71d2a;
 }
+
+.apexcharts-toolbar svg {
+  stroke: #bfdbfe !important;  /* azul claro */
+  fill: #bfdbfe !important;
+}
+.apexcharts-toolbar svg:hover {
+  stroke: #60a5fa !important;  /* azul un poco más oscuro */
+  fill: #60a5fa !important;
+}
+
+.input-group > p {
+    margin-top: px; /* Añade espacio arriba */
+    color: #040f3f;
+    text-align: center;
+    font-size: 14px;
+    font-family: AbeeZee;
+}
